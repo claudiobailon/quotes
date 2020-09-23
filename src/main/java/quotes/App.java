@@ -3,12 +3,27 @@
  */
 package quotes;
 
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class App {
     public String getGreeting() {
         return "Hello world.";
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public static void main(String[] args) throws FileNotFoundException {
+
+        Gson gson = new Gson();
+        Scanner quoteScanner = new Scanner(new File("src/main/resources/quotes.json"));
+        String jsonStuff = quoteScanner.nextLine();
+
+        Quotes quote = gson.fromJson(jsonStuff,Quotes.class);
+        System.out.println(quote);
+
     }
 }

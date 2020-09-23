@@ -8,11 +8,8 @@ import java.util.Scanner;
 
 public class Quotes {
 
-    public static void pullGson () throws FileNotFoundException {
+    public static void pullGson () {
 
-        Gson gson = new Gson();
-        Scanner quoteScanner = new Scanner(new File("src/main/resources/quotes.json"));
 
-        Quotes quote = gson.fromJson(quotes,Quotes.class);
     }
 }

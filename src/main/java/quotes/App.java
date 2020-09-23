@@ -16,9 +16,14 @@ public class App {
         return "Hello world.";
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
+        Gson gson = new Gson();
+        Scanner quoteScanner = new Scanner(new File("src/main/resources/quotes.json"));
+        String jsonStuff = quoteScanner.nextLine();
 
+        Quotes quote = gson.fromJson(jsonStuff,Quotes.class);
+        System.out.println(quote);
 
     }
 }

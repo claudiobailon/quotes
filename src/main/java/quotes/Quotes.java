@@ -7,9 +7,21 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Quotes {
+    String author;
+    String text;
 
-    public static void pullGson () {
-
-
+    public Quotes(String author, String quote) {
+        this.author = author;
+        this.text = quote;
     }
+
+    public String toString(){
+        return String.format("Quote: %s - \n%s",text,author);
+    }
+
+
+//    public static void pullGson () {
+
+
+//    }
 }

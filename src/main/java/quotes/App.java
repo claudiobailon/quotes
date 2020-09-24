@@ -4,59 +4,36 @@
 package quotes;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
 
-//        Gson gson = new Gson();
-//        Scanner quoteScanner = new Scanner(new File("src/main/resources/quotes.json"));
-//        String jsonStuff = quoteScanner.nextLine();
-
-        try {//help from https://attacomsian.com/blog/gson-read-json-file
+        try { // help from https://attacomsian.com/blog/gson-read-json-file
             Gson gson = new Gson();
 
             Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/quotes.json"));
 
             Quotes[] quote = gson.fromJson(reader, Quotes[].class);
 
-            for ( Quotes value : quote){
-                System.out.println(value);
-            }
-            System.out.println(quote);
+            int randomNumber = randomNumber();
+            System.out.println( quote[randomNumber] );
 
             reader.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
 
-//        Quotes[] quotesArray=gson.fromJson(jsonStuff,Quotes[].class);
-//        Quotes quote = gson.fromJson(jsonStuff,Quotes.class);
-//        System.out.println(quote);
-////        File jsonFile = new File("src/main/resources/quotes.json");
+    public static int randomNumber () {
+        int min = 0;
+        int max = 138;
+        int random = (int) (Math.random() * (max - min + 1) + min);
 
-//        Type quoteListType = new TypeToken<ArrayList<Quotes>>(){}.getType();
-//        ArrayList<Quotes> quotesList = gson.fromJson(String.valueOf(jsonFile), quoteListType);
-
-
-
-
+        return random;
     }
 }

@@ -7,5 +7,5 @@
 This app uses Gson to parse a Json file and display a random quote
 to the terminal each time the app is run. 
 
-### Tests
+#### Tests
 We wrote a test to verify the constructor in the Quotes Class

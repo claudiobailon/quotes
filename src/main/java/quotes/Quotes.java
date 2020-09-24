@@ -10,6 +10,6 @@ public class Quotes {
     }
 
     public String toString(){
-        return String.format("Quote: %s - \n%s",text,author);
+        return String.format("Quote: %s \n- %s",text,author);
     }
 }

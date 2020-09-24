@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class App {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
 
         try { // help from https://attacomsian.com/blog/gson-read-json-file
             Gson gson = new Gson();
@@ -20,7 +20,7 @@ public class App {
             Quotes[] quote = gson.fromJson(reader, Quotes[].class);
 
             int randomNumber = randomNumber();
-            System.out.println(quote[randomNumber]);
+            System.out.println( quote[randomNumber] );
 
             reader.close();
 
@@ -36,5 +36,4 @@ public class App {
 
         return random;
     }
-
 }

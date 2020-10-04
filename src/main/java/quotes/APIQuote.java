@@ -5,12 +5,12 @@ public class APIQuote extends Quote{
 
     String apiQuote;
 
-    public APIQuote(String author, String quote, String apiQuote){
+    public APIQuote(String author, String quote){
         super(author, quote);
-        this.apiQuote = apiQuote;
     }
 
-    public String toString(){
-        return String.format("Quote: %s", apiQuote);
+    public void normalizeQuote(){
+        this.text = this.apiQuote.split("\\s—\\s")[0].toString();
+        this.author = this.apiQuote.split("\\s—\\s")[1].toString();
     }
 }

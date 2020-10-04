@@ -5,48 +5,116 @@ package quotes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import org.checkerframework.checker.units.qual.A;
+
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        try { // help from https://attacomsian.com/blog/gson-read-json-file
-            Gson gson = new Gson();
-
-            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/quotes.json"));
-
-            Quote[] quote = gson.fromJson(reader, Quote[].class);
-
-            int randomNumber = randomNumber();
-            System.out.println( quote[randomNumber] );
-
-            reader.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+//        try { // help from https://attacomsian.com/blog/gson-read-json-file
+//            Gson gson = new Gson();
+//            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/quotes.json"));
+//            Quote[] quote = gson.fromJson(reader, Quote[].class);
+//
+//            int randomNumber = randomNumber(quote.length);
+//            System.out.println( quote[randomNumber] );
+//
+//            reader.close();
+//
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+        returnQuote();
     }
 
-    public static String pingAPI() throws IOException {
-        URL url = new URL ("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+    public static void returnQuote() throws IOException{
+        String localQuote= "";
+
+        try{
+            App quotes = new App();
+            ArrayList<Quote> quotesArrayList = quotes.createQuoteArrayList();
+            localQuote = getRandomQuote(quotesArrayList);
+
+            String apiQuote = App.pingAPI();
+            APIQuote newQuote = App.getOneQuote(apiQuote);
+            newQuote.normalizeQuote();
+
+            System.out.println(newQuote);//display quote from api
+
+            quotesArrayList.add(newQuote);// adds quote from api to quotesArrayList
+
+            saveQuote("src/main/resources/quotes.json", quotesArrayList);
+
+
+
+
+        }catch(IOException e) {
+            System.out.println("Error reaching API, here is a saved quote: " + localQuote);
+            throw e;
+        }
+
+
+    }
+
+    public static APIQuote getOneQuote(String string){
+        Gson gson = new Gson();
+        return gson.fromJson(string, APIQuote.class);
+    }
+
+    //This function creates on arrayList of quotes
+    public static ArrayList<Quote> createQuoteArrayList() throws IOException {
+        Gson gson = new Gson();
+        Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/quotes.json"));
+
+        Quote[] quotes= gson.fromJson(reader, Quote[].class);
+
+        reader.close();
+        return new ArrayList<>(Arrays.asList(quotes));
+    }
+
+    //worked with David Dicken and Paul O'Brien on this method
+    public static String pingAPI() throws IOException {//this method grabs a quote from the api
+        URL url = new URL ("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
         BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String aLine = input.readLine();
+        String line = input.readLine();
 
 
-        return "";
+        return line;
     }
 
-    public static int randomNumber () {
+    public static void saveQuote(String filePath, ArrayList<Quote> quotes) throws IOException{
+        FileWriter writer = new FileWriter(filePath);
+        Gson gson = new Gson();
+        gson.toJson(quotes, writer);
+        writer.close();
+
+    }
+
+
+    //Grabs a random Quote
+    public static String getRandomQuote(ArrayList<Quote> quoteArray){
+        int randomIndex= randomNumber(quoteArray.size());
+        return quoteArray.get(randomIndex).toString();//Help from https://www.geeksforgeeks.org/arraylist-get-method-java-examples/
+    }
+    public static String randomQuote() throws IOException{
+        return getRandomQuote(createQuoteArrayList());
+    }
+
+    public static int randomNumber (int max) {
         int min = 0;
-        int max = 138;
         int random = (int) (Math.random() * (max - min + 1) + min);
 
         return random;

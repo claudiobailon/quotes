@@ -4,7 +4,10 @@
 package quotes;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -17,7 +20,7 @@ public class App {
 
             Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/quotes.json"));
 
-            Quotes[] quote = gson.fromJson(reader, Quotes[].class);
+            Quote[] quote = gson.fromJson(reader, Quote[].class);
 
             int randomNumber = randomNumber();
             System.out.println( quote[randomNumber] );
@@ -27,6 +30,18 @@ public class App {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static String pingAPI() throws IOException {
+        URL url = new URL ("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String aLine = input.readLine();
+
+
+        return "";
     }
 
     public static int randomNumber () {

@@ -4,6 +4,9 @@
 package quotes;
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class AppTest {
@@ -13,6 +16,12 @@ public class AppTest {
         Quotes testQuote = new Quotes("charles","peanut butter jelly");
 
         assertEquals("Quote: peanut butter jelly \n- charles", testQuote.toString());
+    }
+
+    @Test public void testAPIPing() throws IOException{
+
+
+        assertEquals("{", App.pingAPI());
     }
 
 }

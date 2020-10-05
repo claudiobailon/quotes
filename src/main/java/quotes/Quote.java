@@ -4,9 +4,9 @@ public class Quote {
     String author;
     String text;
 
-    public Quote(String author, String quote) {
+    public Quote(String author, String text) {
         this.author = author;
-        this.text = quote;
+        this.text = text;
     }
 
     public String toString(){

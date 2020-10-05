@@ -47,7 +47,7 @@ public class App {
 
             String apiQuote = App.pingAPI();
             APIQuote newQuote = App.getOneQuote(apiQuote);
-            newQuote.normalizeQuote();
+//            newQuote.normalizeQuote();
 
             System.out.println(newQuote);//display quote from api
 
@@ -84,7 +84,7 @@ public class App {
 
     //worked with David Dicken and Paul O'Brien on this method
     public static String pingAPI() throws IOException {//this method grabs a quote from the api
-        URL url = new URL ("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote");
+        URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 

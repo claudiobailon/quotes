@@ -6,6 +6,7 @@ package quotes;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -19,9 +20,18 @@ public class AppTest {
     }
 
     @Test public void testAPIPing() throws IOException{
-
-
-        assertEquals("{", App.pingAPI());
+        App test = new App();
+        String firstChar = (test.pingAPI());
+        assertEquals('{', firstChar.charAt(0));//makes sure api is sending somthing when pinged
+    }
+    @Test public void addToJSONTest() throws IOException{
+        App test = new App();
+        ArrayList<Quote> testArray = test.createQuoteArrayList();
+        Quote lastQuote = testArray.get(testArray.size()-1);
+        App testAdd = new App();
+        ArrayList<Quote> newTestArray = testAdd.createQuoteArrayList();
+        Quote lastQuoteNow = newTestArray.get(testArray.size()-1);
+        assertNotSame(lastQuote,lastQuoteNow);//size of array is different after new quote
     }
 
 }

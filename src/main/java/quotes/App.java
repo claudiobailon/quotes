@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class App {
 
     public static void main(String[] args) throws IOException {
-
+//        bellow code just sends random quote from quotes.json
 //        try { // help from https://attacomsian.com/blog/gson-read-json-file
 //            Gson gson = new Gson();
 //            Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/quotes.json"));
@@ -47,29 +47,20 @@ public class App {
 
             String apiQuote = App.pingAPI();
             APIQuote newQuote = App.getOneQuote(apiQuote);
-//            newQuote.normalizeQuote();
 
             System.out.println(newQuote);//display quote from api
-
             quotesArrayList.add(newQuote);// adds quote from api to quotesArrayList
-
             saveQuote("src/main/resources/quotes.json", quotesArrayList);
-
-
-
-
         }catch(IOException e) {
             System.out.println("Error reaching API, here is a saved quote: " + localQuote);
             throw e;
         }
 
 
+
     }
 
-    public static APIQuote getOneQuote(String string){
-        Gson gson = new Gson();
-        return gson.fromJson(string, APIQuote.class);
-    }
+
 
     //This function creates on arrayList of quotes
     public static ArrayList<Quote> createQuoteArrayList() throws IOException {
@@ -84,16 +75,21 @@ public class App {
 
     //worked with David Dicken and Paul O'Brien on this method
     public static String pingAPI() throws IOException {//this method grabs a quote from the api
-        URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");
+        Gson gson = new Gson();
+        URL url = new URL("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote");
+//        URL url = new URL("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en");//this line returns a 403 error, not sure why
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
         BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String line = input.readLine();
-
-
         return line;
     }
+    public static APIQuote getOneQuote(String string) {
+        Gson gson = new Gson();
+        return gson.fromJson(string, APIQuote.class);
+    }
+
 
     public static void saveQuote(String filePath, ArrayList<Quote> quotes) throws IOException{
         FileWriter writer = new FileWriter(filePath);

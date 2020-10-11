@@ -9,6 +9,10 @@ public class Quote {
         this.text = text;
     }
 
+    public Quote(String text){
+        this.text = text;
+    }
+
     public String toString(){
         return String.format("Quote: %s \n- %s",text,author);
     }
